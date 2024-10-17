@@ -97,8 +97,18 @@ class MessageBase:
             name_0 = ""
             name_1 = self._name(self.src)
 
+        ## CTR hack. Make this better later
+        if name_0 == " 03:150994":
+            name_0 = "SEN:LIVING"
+        elif name_0 == " 04:237332":
+            name_0 = "RAD:LIVING"
+        elif name_0 == " 01:066934":
+            name_0 = "CTL:BASE"
+        elif name_0 == " 04:237330":
+            name_0 = "RAD:STUDY"
+
         code_name = CODE_NAMES.get(self.code, f"unknown_{self.code}")
-        self._str = MSG_FORMAT_10.format(
+        self._str = self._pkt._rssi + MSG_FORMAT_10.format(
             name_0, name_1, self.verb, code_name, ctx(self._pkt), self.payload
         )
         return self._str
