@@ -98,6 +98,19 @@ class MessageBase:
             name_1 = self._name(self.src)
 
         ## CTR hack. Make this better later
+# (evohome) ctr28@flint:~/evohome/ramses_rf$ cat packet.log | python client.py parse | grep -i \'name\' | sort -k 11 | cut -c51- | uniq
+# 23:40:31.018 Best practice is to provide a known_list and enforce it, configure: enforce_known_list = True
+# zone_name        |  00  || {'zone_idx': '00', 'name': 'Bed Girls'}
+# zone_name        |  02  || {'zone_idx': '02', 'name': 'Bed Mid'}
+# zone_name        |  03  || {'zone_idx': '03', 'name': 'Bed Sam'}
+# zone_name        |  04  || {'zone_idx': '04', 'name': 'Dining'}
+# zone_name        |  05  || {'zone_idx': '05', 'name': 'Living'}
+# zone_name        |  06  || {'zone_idx': '06', 'name': 'Family'}
+# zone_name        |  07  || {'zone_idx': '07', 'name': 'Study'}
+# zone_name        |  08  || {'zone_idx': '08', 'name': 'Bed Master'}
+# zone_name        |  09  || {'zone_idx': '09', 'name': 'Bathroom'}
+# (evohome) ctr28@flint:~/evohome/ramses_rf$
+        
         if name_0 == " 03:150994":
             name_0 = "SEN:LIVING"
         elif name_0 == " 04:237332":
@@ -106,6 +119,8 @@ class MessageBase:
             name_0 = "CTL:BASE"
         elif name_0 == " 04:237330":
             name_0 = "RAD:STUDY"
+        elif name_0 == " 04:171105":
+            name_0 = "RAD:BATHRM"
 
         code_name = CODE_NAMES.get(self.code, f"unknown_{self.code}")
         self._str = self._pkt._rssi + MSG_FORMAT_10.format(
