@@ -30,18 +30,20 @@ def on_message(client, userdata, msg):
 
     msg = json.loads(message)
     print(f"{msg=}")
-    packet = Packet(msg["ts"], msg["msg"]) 
+    packet = Packet.from_file(msg["ts"], msg["msg"])
     print(packet)
 
     mm = Message(packet)
     print(mm)
 
+    print(f"{mm.dst=}")
+
     # Check if the message contains the DEVICE_ID to forward
-    if DEVICE_ID in msg:
-        print(f"Message from DEVICE_ID found: {msg=}")
-        #client.publish(TOPIC_PUBLISH, "")
+    if DEVICE_ID == str(mm.dst):
+        print(f"Message from DEVICE_ID found: {mm=}. REPEATING!")
+        client.publish(TOPIC_PUBLISH, repr(mm))
     else:
-        print(f"Ignoring message: {msg=}")
+        print(f"Ignoring message: {mm=}")
 
 # Create an MQTT client instance
 client = mqtt.Client()
