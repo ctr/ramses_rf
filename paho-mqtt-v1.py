@@ -10,6 +10,7 @@ import paho.mqtt.client as mqtt
 from ramses_tx.protocol import Packet # To decode packets
 from ramses_tx.message import Message # To decode packets
 import re
+import sys
 
 # MQTT settings
 BROKER = "flint.home"  # broker address
@@ -65,6 +66,9 @@ def on_message(client, userdata, msg):
 
 
 ### MAIN CODE HERE ##
+
+# Disable buffering so output can be fed to `tee`
+sys.stdout.reconfigure(line_buffering=True)
 
 # Create an MQTT client instance
 client = mqtt.Client()
