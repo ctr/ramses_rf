@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 # CTR attempt at forwarding packets using a RAMSES_ESP device and MQTT transport.
 # Forwards packets for selected devices only in an attempt to minimise impact on system.
+#
+# Usage:
+# (evohome) ctr28@flint:~/evohome/ramses_rf$ ./paho-mqtt-v1.py | tee -a paho_-mqtt-v1.log
 
 import json
 import paho.mqtt.client as mqtt
@@ -53,7 +56,7 @@ def on_message(client, userdata, msg):
     # Annoyingly transmitted packets are echoed to Rx BUT they have 000 as the RSSI which is impossible I think for normal packets.
     if packet._rssi == "000":
         print(f"IGNORE LOOPBACK || {str(mm)}")
-    elif repr(mm.src) in DEVICES_TO_FORWARD: # For whatever reason repr doesn't decode the names but str does.
+    elif repr(mm.src) in DEVICES_TO_FORWARD or repr(mm.dst) in DEVICES_TO_FORWARD: # For whatever reason repr doesn't decode the names but str does.
         print(f"*REPEAT PACKET* || {str(mm)}\n--> {packet=}")
         client.publish(TOPIC_PUBLISH, f'{{ "msg": "{repr(mm)}" }}') # MQTT Tx needs to be in JSON format
         # Note that in python f-strings {{ gives a literal {, and }} gives a literal }.

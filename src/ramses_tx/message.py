@@ -110,21 +110,26 @@ class MessageBase:
 # zone_name        |  08  || {'zone_idx': '08', 'name': 'Bed Master'}
 # zone_name        |  09  || {'zone_idx': '09', 'name': 'Bathroom'}
 # (evohome) ctr28@flint:~/evohome/ramses_rf$
-        
-        if name_0 == " 04:243385":
-            name_0 = "RAD:GIRLS"
-        elif name_0 == " 03:150994":
-            name_0 = "SEN:LIVING"
-        elif name_0 == " 04:237332":
-            name_0 = "RAD:LIVING"
-        elif name_0 == " 01:066934":
-            name_0 = "CTL:BASE"
-        elif name_0 == " 04:237330":
-            name_0 = "RAD:STUDY"
-        elif name_0 == " 04:171105":
-            name_0 = "RAD:BATHRM"
-        elif name_0 == " 04:237330":
-            name_0 = "RAD:STUDY"
+
+        def CTR_decode_names(name: str) -> str:
+            if name == " 04:243385":
+                name = "RAD:GIRLS"
+            elif name == " 03:150994":
+                name = "SEN:LIVING"
+            elif name == " 04:237332":
+                name = "RAD:LIVING"
+            elif name == " 01:066934":
+                name = "CTL:BASE"
+            elif name == " 04:237330":
+                name = "RAD:STUDY"
+            elif name == " 04:171105":
+                name = "RAD:BATHRM"
+            elif name == " 04:237330":
+                name = "RAD:STUDY"
+            return name
+
+        name_0 = CTR_decode_names(name_0)
+        name_1 = CTR_decode_names(name_1)
 
         code_name = CODE_NAMES.get(self.code, f"unknown_{self.code}")
         self._str = self._pkt._rssi + MSG_FORMAT_10.format(
